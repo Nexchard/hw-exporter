@@ -249,36 +249,6 @@ exporter:
 - `owned_by_self`: 过滤资源是否属于当前租户
 - `expired_days_since`: 证书在有效期内及最多过期xx天
 
-## 安装与运行
-
-### 使用UV安装（推荐）
-
-1. 安装UV:
-```
-pip install uv
-```
-
-2. 安装依赖:
-```
-uv sync
-```
-
-3. 运行项目:
-```
-uv run python app.py
-```
-
-### 传统方式安装
-
-1. 安装依赖:
-```
-pip install -r requirements.txt
-```
-
-2. 运行项目:
-```bash
-python app.py
-```
 
 ## 配置文件示例
 
