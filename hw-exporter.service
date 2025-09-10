@@ -1,0 +1,17 @@
+[Unit]
+Description=Huawei Cloud Prometheus Exporter
+After=network-online.target
+
+[Service]
+Type=simple
+User=hw-exporter
+Group=hw-exporter
+ExecStart=/usr/local/bin/uv run python3 /opt/hw-exporter/app.py
+WorkingDirectory=/opt/hw-exporter
+Restart=always
+RestartSec=10
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+Environment=PYTHONPATH=/opt/hw-exporter
+
+[Install]
+WantedBy=multi-user.target

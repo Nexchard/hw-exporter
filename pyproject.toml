@@ -1,0 +1,19 @@
+[project]
+name = "huawei-cloud-exporter"
+version = "1.0.0"
+description = "A Prometheus exporter for Huawei Cloud services"
+readme = "README.md"
+dependencies = [
+    "prometheus-client>=0.17.0",
+    "PyYAML>=6.0",
+    "requests>=2.31.0",
+    "python-dateutil>=2.9.0.post0",
+    # 华为云SDK依赖
+    "huaweicloudsdkcore==3.1.165",
+    "huaweicloudsdkbss==3.1.165",
+    "huaweicloudsdkscm==3.1.165",
+]
+
+[[tool.uv.index]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true

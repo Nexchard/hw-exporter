@@ -1,0 +1,162 @@
+# 华为云Exporter配置文件示例
+
+exporter:
+  # Exporter监听端口
+  port: 9091
+  # Exporter监听地址
+  address: "0.0.0.0"
+  # 日志级别 (可选: DEBUG, INFO, WARNING, ERROR, CRITICAL)
+  log_level: "INFO"
+  
+# 多账号配置
+# 注意：请将下面的认证信息替换为您从华为云获取的真实凭证
+# 获取方式：登录华为云控制台 -> 我的凭证 -> 访问密钥 -> 新增访问密钥
+huawei_cloud_accounts:
+  - name: "your_account_name"  # 替换为您的账号名
+    auth:
+      # AK/SK认证方式所需信息
+      ak: "your_access_key"      # 替换为您的Access Key
+      sk: "your_secret_key"      # 替换为您的Secret Key
+      # Token认证方式所需信息
+      domain_name: "your_domain_name"  # IAM用户所属账号名
+      username: "your_username"         # IAM用户名
+      password: "your_password"         # IAM用户密码
+      # IAM端点，用于获取Token
+      iam_endpoint: "https://iam.myhuaweicloud.com"  # 根据实际区域修改
+    modules:
+      # ListCertificates API模块配置 - 证书查询
+      listcertificates:
+        enabled: true
+        collection_interval: "1h"
+        
+      # ListFreeResourceInfos API模块配置 - 免费资源包查询
+      listfreeresourceinfos:
+        enabled: true                  # 是否启用该模块
+        # 该模块专门使用AK/SK认证方式，不需要配置endpoint
+        collection_interval: "1h"       # 采集间隔：支持多种单位（如：60s, 1m, 1h, 1d）
+        
+      # ListStoredValueCards API模块配置 - 储值卡查询
+      liststoredvaluecards:
+        enabled: true                  # 是否启用该模块
+        # 该模块专门使用AK/SK认证方式，不需要配置endpoint
+        collection_interval: "1h"       # 采集间隔：支持多种单位（如：60s, 1m, 1h, 1d）
+        params:                        # API请求参数
+          status: 1                    # 只查询可使用的储值卡
+      
+      # ShowCustomerAccountBalances API模块配置 - 账户余额查询
+      showcustomeraccountbalances:
+        enabled: true                  # 是否启用该模块
+        # 该模块专门使用AK/SK认证方式，不需要配置endpoint
+        collection_interval: "1h"       # 采集间隔：支持多种单位（如：60s, 1m, 1h, 1d）
+        
+      # ListPayPerUseCustomerResources API模块配置 - 包年/包月资源查询
+      listpayperusecustomerresources:
+        enabled: true                  # 是否启用该模块
+        # 该模块专门使用AK/SK认证方式，不需要配置endpoint
+        collection_interval: "1h"       # 采集间隔：支持多种单位（如：60s, 1m, 1h, 1d）
+        params:                        # API请求参数
+          status_list: [2]             # 资源状态：2表示使用中的资源
+          only_main_resource: 1        # 只查询主资源
+          limit: 500                   # 每次查询的条数
+          
+      # ListCosts API模块配置 - 成本查询
+      listcosts:
+        enabled: true                  # 是否启用该模块
+        # 该模块专门使用AK/SK认证方式，不需要配置endpoint
+        collection_interval: "1d"       # 采集间隔：支持多种单位（如：60s, 1m, 1h, 1d）
+        params:                        # API请求参数
+          # begin_time: "2024-08"      # 开始时间，格式为YYYY-MM，如果不配置则自动计算为当前月份往前12个月
+          # end_time: "2025-08"        # 结束时间，格式为YYYY-MM，如果不配置则自动计算为当前月份
+          # amount_type: "NET_AMOUNT"  # 金额类型：NET_AMOUNT（净额）, TAX_AMOUNT（税额）, TOTAL_AMOUNT（总额）
+          # cost_type: "ORIGINAL_COST" # 成本类型：ORIGINAL_COST（原始成本）, DISCOUNT_COST（折扣成本）, REFUND_COST（退款成本）
+          # groupby:                   # 分组条件，按维度分组
+          #   - type: "dimension"
+          #     key: "CHARGING_MODE"   # 可选值：CHARGING_MODE（计费模式）, RESOURCE_TYPE 等
+          # filters: []                # 过滤条件，默认为空
+        
+      # 域名信息收集器模块配置
+      domain:
+        enabled: true                  # 是否启用该模块
+        auth_type: "token"             # 认证方式: aksk 或 token
+        # 认证信息将从账号配置继承
+        # domain_name, username, password 将使用账号级别的配置
+        # iam_endpoint 将使用账号级别的配置
+        # endpoint 可选配置，如不配置将使用默认值 https://domain.myhuaweicloud.com
+        collection_interval: "1h"       # 采集间隔：1小时
+        params:                        # API请求参数
+          limit: 200                   # 每次查询的条数
+
+        
+  - name: "your_account_name2"
+    auth:
+      # AK/SK认证方式所需信息
+      ak: "your_access_key"      # 替换为您的Access Key
+      sk: "your_secret_key"      # 替换为您的Secret Key
+      # Token认证方式所需信息
+      domain_name: "your_domain_name"  # IAM用户所属账号名
+      username: "your_username"         # IAM用户名
+      password: "your_password"         # IAM用户密码
+      # IAM端点，用于获取Token
+      iam_endpoint: "https://iam.myhuaweicloud.com"  # 根据实际区域修改
+    modules:
+      # ListCertificates API模块配置 - 证书查询
+      listcertificates:
+        enabled: true
+        collection_interval: "1h"
+
+      # ListFreeResourceInfos API模块配置 - 免费资源包查询
+      listfreeresourceinfos:
+        enabled: true                  # 是否启用该模块
+        # 该模块专门使用AK/SK认证方式，不需要配置endpoint
+        collection_interval: "1h"       # 采集间隔：支持多种单位（如：60s, 1m, 1h, 1d）
+        
+      # ListStoredValueCards API模块配置 - 储值卡查询
+      liststoredvaluecards:
+        enabled: true                  # 是否启用该模块
+        # 该模块专门使用AK/SK认证方式，不需要配置endpoint
+        collection_interval: "1h"       # 采集间隔：支持多种单位（如：60s, 1m, 1h, 1d）
+        params:                        # API请求参数
+          status: 1                    # 只查询可使用的储值卡
+      
+      # ShowCustomerAccountBalances API模块配置 - 账户余额查询
+      showcustomeraccountbalances:
+        enabled: true                  # 是否启用该模块
+        # 该模块专门使用AK/SK认证方式，不需要配置endpoint
+        collection_interval: "1h"       # 采集间隔：支持多种单位（如：60s, 1m, 1h, 1d）
+        
+      # ListPayPerUseCustomerResources API模块配置 - 包年/包月资源查询
+      listpayperusecustomerresources:
+        enabled: true                  # 是否启用该模块
+        # 该模块专门使用AK/SK认证方式，不需要配置endpoint
+        collection_interval: "1h"       # 采集间隔：支持多种单位（如：60s, 1m, 1h, 1d）
+        params:                        # API请求参数
+          status_list: [2]             # 资源状态：2表示使用中的资源
+          only_main_resource: 1        # 只查询主资源
+          limit: 500                   # 每次查询的条数
+          
+      # ListCosts API模块配置 - 成本查询
+      listcosts:
+        enabled: true                  # 是否启用该模块
+        # 该模块专门使用AK/SK认证方式，不需要配置endpoint
+        collection_interval: "1d"       # 采集间隔：支持多种单位（如：60s, 1m, 1h, 1d）
+        params:                        # API请求参数
+          # begin_time: "2024-08"      # 开始时间，格式为YYYY-MM，如果不配置则自动计算为当前月份往前12个月
+          # end_time: "2025-08"        # 结束时间，格式为YYYY-MM，如果不配置则自动计算为当前月份
+          # amount_type: "NET_AMOUNT"  # 金额类型：NET_AMOUNT（净额）, TAX_AMOUNT（税额）, TOTAL_AMOUNT（总额）
+          # cost_type: "ORIGINAL_COST" # 成本类型：ORIGINAL_COST（原始成本）, DISCOUNT_COST（折扣成本）, REFUND_COST（退款成本）
+          # groupby:                   # 分组条件，按维度分组
+          #   - type: "dimension"
+          #     key: "CHARGING_MODE"   # 可选值：CHARGING_MODE（计费模式）, RESOURCE_TYPE 等
+          # filters: []                # 过滤条件，默认为空
+          
+      # 域名信息收集器模块配置
+      domain:
+        enabled: true                  # 是否启用该模块
+        auth_type: "token"             # 认证方式: aksk 或 token
+        # 认证信息将从账号配置继承
+        # domain_name, username, password 将使用账号级别的配置
+        # iam_endpoint 将使用账号级别的配置
+        # endpoint 可选配置，如不配置将使用默认值 https://domain.myhuaweicloud.com
+        collection_interval: "1h"       # 采集间隔：1小时
+        params:                        # API请求参数
+          limit: 200                   # 每次查询的条数
