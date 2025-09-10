@@ -54,6 +54,13 @@ PACKAGE_EXPIRE_TIME = Gauge(
     ['account', 'order_instance_id', 'product_name', 'service_type_name']
 )
 
+# 正在使用中的免费资源包到期时间指标 (Unix时间戳)
+ACTIVE_PACKAGE_EXPIRE_TIME = Gauge(
+    'huaweicloud_bss_free_resource_active_package_expire_timestamp',
+    'Expire timestamp of active free resource packages in BSS (Unix timestamp)',
+    ['account', 'order_instance_id', 'product_name', 'service_type_name']
+)
+
 # 免费资源包信息指标
 PACKAGE_INFO = Info(
     'huaweicloud_bss_free_resource_package',
@@ -213,6 +220,16 @@ class LISTFREERESOURCEINFOSCollector(BaseCollector):
                             service_type_name=service_type_name
                         ).set(expire_timestamp)
                         logger.debug(f"Package {order_instance_id} expire time: {expire_time_str} -> {expire_timestamp}")
+                        
+                        # 如果资源包状态为生效中(status=1)，则也更新正在使用中的资源包到期时间指标
+                        if status == 1:
+                            ACTIVE_PACKAGE_EXPIRE_TIME.labels(
+                                account=self.name,
+                                order_instance_id=order_instance_id,
+                                product_name=product_name,
+                                service_type_name=service_type_name
+                            ).set(expire_timestamp)
+                            logger.debug(f"Active package {order_instance_id} expire time: {expire_time_str} -> {expire_timestamp}")
                 
                 # 解析资源套餐内的资源项信息并更新指标
                 free_resources = package.get('free_resources', [])
@@ -319,5 +336,6 @@ class LISTFREERESOURCEINFOSCollector(BaseCollector):
             RESOURCE_ORIGINAL_AMOUNT,
             PACKAGE_INFO,
             PACKAGE_EFFECTIVE_TIME,
-            PACKAGE_EXPIRE_TIME
+            PACKAGE_EXPIRE_TIME,
+            ACTIVE_PACKAGE_EXPIRE_TIME
         ]

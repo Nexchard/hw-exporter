@@ -228,6 +228,22 @@
   huaweicloud_bss_free_resource_package_expire_timestamp{account="hw057993413",order_instance_id="01154-301381337-0",product_name="OBS公网流出流量包 100GB 包年",service_type_name="对象存储服务"} 1.789027199e+09
   ```
 
+### huaweicloud_bss_free_resource_active_package_expire_timestamp
+
+正在使用中的免费资源包到期时间戳。
+
+- **类型**: Gauge
+- **标签**:
+  - `account`: 账号名称
+  - `order_instance_id`: 订单实例ID
+  - `product_name`: 产品名称
+  - `service_type_name`: 服务类型名称
+- **说明**: 该指标仅包含状态为"生效中"(status=1)的免费资源包的到期时间，用于跟踪当前正在使用的资源包何时到期
+- **示例**:
+  ```
+  huaweicloud_bss_free_resource_active_package_expire_timestamp{account="hw057993413",order_instance_id="01154-301381337-0",product_name="OBS公网流出流量包 100GB 包年",service_type_name="对象存储服务"} 1.789027199e+09
+  ```
+
 ### huaweicloud_bss_free_resource_package_info
 
 免费资源包详细信息。
