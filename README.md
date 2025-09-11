@@ -463,55 +463,43 @@ huaweicloud_bss_resource_total_count
 1. **安装uv工具**
    ```bash
    # 使用官方脚本安装uv（推荐）
-   sudo curl -LsSf https://astral.sh/uv/install.sh | sh
+   curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
 
 2. **安装Python**
    ```bash
    # 使用uv安装Python（推荐方式）
-   sudo /usr/local/bin/uv python install 3.11
+   uv python install 3.11
    ```
 
 3. **获取项目文件**
    ```bash
    # 克隆项目仓库
-   sudo git clone https://github.com/Nexchard/hw-exporter.git /opt/hw-exporter
+   git clone https://github.com/Nexchard/hw-exporter.git /opt/hw-exporter
    
    # 切换到项目目录
    cd /opt/hw-exporter
    
    # 安装项目依赖
-   sudo -u hw-exporter /usr/local/bin/uv sync
-   
-   # 创建hw-exporter用户和组
-   sudo useradd -r -s /bin/false hw-exporter
+   uv sync
    ```
-
-4. **设置权限**
-   ```bash
-   # 设置目录权限
-   sudo chown -R hw-exporter:hw-exporter /opt/hw-exporter
    
-   # 设置配置文件权限
-   sudo chmod 600 /opt/hw-exporter/config/config.yaml
-   ```
-
 5. **配置服务**
    ```bash
    # 复制服务文件
-   sudo cp /opt/hw-exporter/hw-exporter.service /etc/systemd/system/
+   cp /opt/hw-exporter/hw-exporter.service /etc/systemd/system/
    
    # 重新加载systemd配置
-   sudo systemctl daemon-reload
+   systemctl daemon-reload
    
    # 启用服务
-   sudo systemctl enable hw-exporter
+   systemctl enable hw-exporter
    ```
 
 6. **配置华为云认证信息**
    ```bash
    # 编辑配置文件
-   sudo nano /opt/hw-exporter/config/config.yaml
+   vim /opt/hw-exporter/config/config.yaml
    
    # 根据需要填写华为云AK/SK或用户名密码等认证信息
    ```
@@ -519,13 +507,13 @@ huaweicloud_bss_resource_total_count
 7. **启动服务**
    ```bash
    # 启动服务
-   sudo systemctl start hw-exporter
+   systemctl start hw-exporter
    
    # 检查服务状态
-   sudo systemctl status hw-exporter
+   systemctl status hw-exporter
    
    # 查看日志
-   sudo journalctl -u hw-exporter -f
+   journalctl -u hw-exporter -f
    ```
 
 ### 验证部署
@@ -534,12 +522,12 @@ huaweicloud_bss_resource_total_count
 
 1. **检查服务状态**
    ```bash
-   sudo systemctl status hw-exporter
+   systemctl status hw-exporter
    ```
 
 2. **检查监听端口**
    ```bash
-   sudo netstat -tlnp | grep 9091
+   netstat -tlnp | grep 9091
    ```
 
 3. **查看指标**
@@ -553,12 +541,12 @@ huaweicloud_bss_resource_total_count
 
 1. **停止服务**
    ```bash
-   sudo systemctl stop hw-exporter
+   systemctl stop hw-exporter
    ```
 
 2. **备份配置文件**
    ```bash
-   sudo cp /opt/hw-exporter/config/config.yaml /opt/hw-exporter/config/config.yaml.backup
+   cp /opt/hw-exporter/config/config.yaml /opt/hw-exporter/config/config.yaml.backup
    ```
 
 3. **更新代码**
@@ -567,7 +555,7 @@ huaweicloud_bss_resource_total_count
    cd /opt/hw-exporter
    
    # 拉取最新代码
-   sudo -u hw-exporter git pull
+   git pull
    ```
 
 4. **更新依赖**
@@ -576,17 +564,17 @@ huaweicloud_bss_resource_total_count
    cd /opt/hw-exporter
    
    # 使用uv更新依赖
-   sudo -u hw-exporter /usr/local/bin/uv sync
+   uv sync
    ```
 
 5. **恢复配置文件**
    ```bash
-   sudo cp /opt/hw-exporter/config/config.yaml.backup /opt/hw-exporter/config/config.yaml
+   cp /opt/hw-exporter/config/config.yaml.backup /opt/hw-exporter/config/config.yaml
    ```
 
 6. **启动服务**
    ```bash
-   sudo systemctl start hw-exporter
+   systemctl start hw-exporter
    ```
 
 ## 贡献

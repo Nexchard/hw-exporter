@@ -1,17 +1,17 @@
 [Unit]
-Description=Huawei Cloud Prometheus Exporter
-After=network-online.target
+Description=HuaweiCloud Exporter Service
+After=network.target
 
 [Service]
-Type=simple
-User=hw-exporter
-Group=hw-exporter
-ExecStart=/usr/local/bin/uv run python3 /opt/hw-exporter/app.py
+User=root
 WorkingDirectory=/opt/hw-exporter
+# 直接调用虚拟环境的 Python 解释器执行脚本
+ExecStart=/opt/hw-exporter/.venv/bin/python /opt/hw-exporter/app.py
 Restart=always
 RestartSec=10
-Environment=PATH=/usr/local/bin:/usr/bin:/bin
-Environment=PYTHONPATH=/opt/hw-exporter
+Environment="PATH=/opt/hw-exporter/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+# 可选：自定义环境变量
+# Environment="KEY=VALUE"
 
 [Install]
 WantedBy=multi-user.target
